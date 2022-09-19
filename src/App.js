@@ -6,11 +6,12 @@ import {
 } from "react-router-dom";
 import { Navbar } from './components/Navbar';
 import { Home } from './components/Home';
-import { About } from './components/About';
+import { About } from './components/About/About';
 import NoteState from './context/notes/NoteState';
 import Alert from './components/Alert';
 import Login from './components/Login';
 import Signup from './components/Signup';
+import Footer from './components/Footer';
 import { useState } from 'react';
 
 function App() {
@@ -30,7 +31,7 @@ function App() {
     <>
       <NoteState>
         <BrowserRouter>
-          <Navbar />
+          <Navbar/>
           <Alert alert={alert} />
           <div className="container">
             <Routes>
@@ -40,6 +41,7 @@ function App() {
               <Route exact path="/SignUp"  element={<Signup showAlert={showAlert} />}></Route>
             </Routes>
           </div>
+          <Footer/>
         </BrowserRouter>
       </NoteState>
     </>

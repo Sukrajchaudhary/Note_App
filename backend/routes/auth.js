@@ -4,7 +4,7 @@ const router = express.Router();
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
-var fetchUser=require('../middleware/fetchUser');
+var fetchUser = require('../middleware/fetchUser');
 const JWT_SECRETE = "Sukrajchaudhary@123";
 // Route:1 Creating a user using: Post "/api/auth".
 router.post('/createuser', [
@@ -13,19 +13,20 @@ router.post('/createuser', [
     body('password', 'Password must be 5 character').isLength({ min: 5 }),
 
 ], async (req, res) => {
-    let success=false;
+    let success = false;
     //if there are errors,return Bad request and the err
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({
-        success,    errors: errors.array()
+            success,
+            errors: errors.array()
         });
     }
     //Check whether email exista already 
     try {
         let user = await User.findOne({ email: req.body.email });
         if (user) {
-            return res.status(400).json({success, error: "Sorry a user With This Email already exist" })
+            return res.status(400).json({ success, error: "Sorry a user With This Email already exist" })
         }
         const salt = await bcrypt.genSalt(10);
         secPass = await bcrypt.hash(req.body.password, salt);
@@ -42,8 +43,8 @@ router.post('/createuser', [
         }
         const authtoken = jwt.sign(data, JWT_SECRETE);
         //  res.json(user)
-        success=true;
-        res.json({success, authtoken })
+        success = true;
+        res.json({ success, authtoken })
     } catch (error) {
         console.error(error.message);
         res.status(500).send("some Error Occured");
@@ -56,7 +57,7 @@ router.post('/login', [
     body('email', 'Please Enter a valid Email').isEmail(),
     body('password', 'Password can not be blank').exists(),
 ], async (req, res) => {
-    let success=false;
+    let success = false;
 
     //IF there are errors, return Bad request and the errorrs
     const errors = validationResult(req);
@@ -70,14 +71,14 @@ router.post('/login', [
 
         let user = await User.findOne({ email });
         if (!user) {
-            success=false;
-            return res.status(400).json({ success,error: "Please try to login with correct credentials" });
+            success = false;
+            return res.status(400).json({ success, error: "Please try to login with correct credentials" });
         }
 
         const passwordCompare = await bcrypt.compare(password, user.password);
         if (!passwordCompare) {
-            success=false;
-            return res.status(400).json({ success,error: "Please try to login with correct credentials" });
+            success = false;
+            return res.status(400).json({ success, error: "Please try to login with correct credentials" });
         }
         const data = {
             user: {
@@ -85,8 +86,8 @@ router.post('/login', [
             }
         }
         const authtoken = jwt.sign(data, JWT_SECRETE);
-        success=true;
-        res.json({ success,authtoken });
+        success = true;
+        res.json({ success, authtoken });
     }
     catch (error) {
         console.error(error.message);
@@ -96,7 +97,7 @@ router.post('/login', [
 
 });
 // Route 3: Get loggin user Details using:Post "/api/auth/getuser".Login required
-router.post('/getuser',fetchUser, async (req, res) => {
+router.post('/getuser', fetchUser, async (req, res) => {
 
     try {
         userId = req.user.id;
