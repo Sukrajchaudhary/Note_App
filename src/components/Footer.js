@@ -14,10 +14,10 @@ const span={
     color:'red'
 }
 
-const Footer = () => {
+const Footer = (props) => {
   return (
     <div>
-        <h4  className='fixed-bottom' style={mystyle}>Created by <span style={span}><i class="fa fa-heart" aria-hidden="true"></i></span> Sukraj Chaudhary</h4>
+        <h4   className='fixed-bottom' style={mystyle}>Created by <span style={span}><i class="fa fa-heart" aria-hidden="true"></i></span> Sukraj Chaudhary</h4>
     </div>
   )
 }

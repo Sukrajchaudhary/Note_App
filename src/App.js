@@ -16,6 +16,24 @@ import { useState } from 'react';
 
 function App() {
 
+  const [mode,setMode]=useState('light');
+  const[text,setText]=useState('Enable Dark Mode')
+   const toggleMode =()=>{
+    if(mode==='light'){
+    setMode('dark')
+    document.body.style.backgroundColor = '#042743';
+      setText('Enable Light Mode')
+      document.body.style.color='white'
+    }
+    else{
+      setMode('light');
+      setText('Enable Dark Mode ')
+      document.body.style.backgroundColor = '#fff';
+      document.body.style.color='black'
+    }
+
+   }
+
   const [alert, setAlert] = useState(null);
   const showAlert = (message, type) => {
     setAlert({
@@ -31,7 +49,7 @@ function App() {
     <>
       <NoteState>
         <BrowserRouter>
-          <Navbar/>
+          <Navbar mode={mode} toggleMode={toggleMode} text={text}/>
           <Alert alert={alert} />
           <div className="container">
             <Routes>
